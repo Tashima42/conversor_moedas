@@ -41,25 +41,38 @@ class _ConversorState extends State<Conversor> {
 
   //Funcoes dos controladores
   void _realChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double real = double.parse(text);
-    dolaresController.text = (real/dolar).toStringAsFixed(2);
-    bitcoinController.text = (real/bitcoin).toStringAsFixed(4);
+    dolaresController.text = (real / dolar).toStringAsFixed(2);
+    bitcoinController.text = (real / bitcoin).toStringAsFixed(4);
   }
 
   void _dolarChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double dolar = double.parse(text);
     reaisController.text = (dolar * this.dolar).toStringAsFixed(2);
-    bitcoinController.text = (dolar * this.dolar / bitcoin ).toStringAsFixed(4);
+    bitcoinController.text = (dolar * this.dolar / bitcoin).toStringAsFixed(4);
   }
 
   void _bitcoinChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double bitcoin = double.parse(text);
     reaisController.text = (bitcoin * this.bitcoin).toStringAsFixed(2);
-    dolaresController.text = (bitcoin * this.bitcoin / dolar).toStringAsFixed(2);
+    dolaresController.text =
+        (bitcoin * this.bitcoin / dolar).toStringAsFixed(2);
   }
 
   //Reseta todos os campos
-  void _clearAll(){
+  void _clearAll() {
     reaisController.text = "";
     dolaresController.text = "";
     bitcoinController.text = "";
@@ -84,7 +97,10 @@ class _ConversorState extends State<Conversor> {
         centerTitle: true,
         backgroundColor: Colors.blue,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.refresh),color: Colors.white, onPressed: _clearAll)
+          IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: _clearAll)
         ],
       ),
       //Coloca um FutureBuilder no corpo para carregar dados dependentes do request
@@ -142,13 +158,16 @@ class _ConversorState extends State<Conversor> {
                           size: 150.0,
                         ),
                         //Input de Reais
-                        buildInputField("Reais", "R\$ ", reaisController, _realChanged),
+                        buildInputField(
+                            "Reais", "R\$ ", reaisController, _realChanged),
                         Divider(),
                         //Input de Dolares
-                        buildInputField("Dolares", "US\$ ", dolaresController, _dolarChanged),
+                        buildInputField("Dolares", "US\$ ", dolaresController,
+                            _dolarChanged),
                         Divider(),
                         //Input de Bitcoin
-                        buildInputField("Bitcoin", "₿ ", bitcoinController, _bitcoinChanged),
+                        buildInputField("Bitcoin", "₿ ", bitcoinController,
+                            _bitcoinChanged),
                       ],
                     ),
                   );
@@ -161,13 +180,17 @@ class _ConversorState extends State<Conversor> {
 
 //Funcao que forma os campos de input
 Widget buildInputField(
-  //Argumentos: Label da moeda, Prefixo dela, Nome do controlador, Funcao executada
-    String currencie, String prefix, TextEditingController controller, Function funcao) {
+    //Argumentos: Label da moeda, Prefixo dela, Nome do controlador, Funcao executada
+    String currencie,
+    String prefix,
+    TextEditingController controller,
+    Function funcao) {
   return TextField(
     controller: controller, //Controlador
-    onChanged: funcao,  //Funcao executada quando o campo e alterado
+    onChanged: funcao, //Funcao executada quando o campo e alterado
     keyboardType: TextInputType.number, //O Input so aceita numeros
-    decoration: InputDecoration(  //Estilizacao
+    decoration: InputDecoration(
+        //Estilizacao
         labelText: currencie,
         labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
         border: OutlineInputBorder(),
